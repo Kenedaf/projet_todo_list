@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg navbar navbar-light  mb-1   " style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 
+0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);color: #1976d2;;background-color: white; height: 56px; ">
+  <a class="navbar-brand" >Todo List</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav nav justify-content-center mx-3 "  >
+            <li class="nav-item mx-1">
+       <!-- <a class="nav-link" routerLink="/preface" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Acceuil</a>-->
+      </li>
+    </ul>
+
+  </div>
+  <ul class="nav justify-content-end">
+
+    <li class="nav-item">
+      <button mat-raised-button style="color: white; background-color: #1976d2;" routerLink="/auth/login">
+        Connection
+       </button>
+    </li>
+
+  </ul>
+</nav>
+
+  <div class="row no-gutters my-5 mx-0 h-100">
+     <div class="col-lg-8 panel " >
+       <a class="h1" style="padding-top: 40px !important;padding-bottom: 40px; margin-left: 20px;margin-right: 20px;" >Crée un Compte</a>
+        <form  [formGroup]="signupForm"  style="padding-top: 40px !important;padding-bottom: 40px; margin-left: 20px;margin-right: 20px;" >
+          <mat-form-field [style.width.%]="80" >
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input matInput type="username" id="username" formControlName="username"
+            (keydown.space)="$event.preventDefault();" required>
+            <div class="invalid-feedback d-block" *ngIf="submitted && myForm.username.errors?.pattern ">
+              veuillez saisir un nom d'utilisateur valide svp
+            </div>     
+          </mat-form-field>
+          <mat-form-field [style.width.%]="80">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" id="email" formControlName="email"
+            (keydown.space)="$event.preventDefault();"  required>
+            <div class="invalid-feedback d-block"
+            *ngIf="submitted && myForm.email.errors?.pattern ">
+            Veuillez saisir une adresse email valide svp
+           </div>    
+          </mat-form-field>   
+          <div class="form-row">
+            <div class="col">
+              <mat-form-field [style.width.%]="80" >
+                <mat-label>Mot de passe</mat-label>
+                <input matInput type="password" id="password" formControlName="password"
+                (keydown.space)="$event.preventDefault();" required>
+                <mat-error *ngIf="signupForm.hasError('required', 'password')">
+                  Enter le mot de passe
+                </mat-error>      
+              </mat-form-field>
+              <mat-form-field *ngIf="signupForm.controls['password'].valid" [style.width.%]="80" >
+                <mat-label>Veuillez répéter le mot de passe</mat-label>
+                <input matInput type="password" id="confirm_password" 
+                (keydown.space)="$event.preventDefault();"
+                formControlName="confirm_password" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="signupForm.hasError('notSame')">
+                Mot de passe ne correspond pas 
+              </mat-error>  
+              </mat-form-field>
+
+            </div>
+          </div>
+          <div style="margin-top: 40px; ">
+            <div class="example-button-row">
+              <button mat-raised-button (click)="onSignup()" [disabled]="signupForm.invalid" style="background-color: #1976d2; color: white; margin-right: 5px !important;">Valider</button>
+              <button mat-raised-button routerLink="/" style=" margin-right: 14px; margin-bottom: 0px;">Annuler</button>
+            </div>
+          </div>
+        </form>
+        
+     </div>
+       <div class=" col-lg-3" >
+
+     </div>
+  </div>
+
+

@@ -1,0 +1,322 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-light" style="margin-bottom: 7px !important;background-color:#026AA7 !important;  color: white !important; font-size: 500 !important;">
+  <a class="navbar-brand" class="custom-title" >Todo List</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarScroll" style="font-weight: bold !important; color: white !important;">
+    <ul class="navbar-nav mr-auto my-0 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+      <li class="nav-item" style="color: white !important;">
+        <a class="nav-link"  data-toggle="modal" data-target="#exampleModalCategorie" ><i  class="fas fa-plus fa-sm" style="margin-right: 3px !important;"></i>Catégorie</a>
+      </li>
+      <li class="nav-item " style="color: white !important;" >
+        <a class="nav-link"
+        data-toggle="modal" data-target="#exampleModalAjouter" ><i class="fas fa-plus fa-sm" style="margin-right: 3px !important;"></i>Tâche </a>
+      </li>
+    
+    </ul>
+    <form class="d-flex">
+      <a class="nav-link" class="custom-user"style="color: white !important; font-size: 16px; font-weight: 600; margin-right: 6px !important;"> Bienvenue <span class="custom-user" style="color: white !important; font-size: 18px; font-weight: Bold;">{{variable_user}}</span>
+        <button class="btn" data-toggle="tooltip" data-placement="bottom" title="Déconnexion"  class="custom-btn"> <i  (click)="onLogout() " class="fa fa-power-off" aria-hidden="true"></i></button>
+      </a>
+    </form>
+  </div>
+</nav>
+  <div class="row">
+    <div class="col-12" style="text-align: start !important;">
+      <ng-container *ngFor="let categorie of categories ">
+      <div class="card bg-light mb-3 mx-1" style="width: 19rem;">
+        <div class="card-header mx-0 my-0" style="margin-bottom: 0px !important;padding-bottom: 0px !important
+        ;background-color: #ebecf0 !important;border: none !important;">
+        <button mat-icon-button
+        data-toggle="tooltip" data-placement="bottom" title="Options" [matMenuTriggerFor]="aboveMenu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #aboveMenu="matMenu" yPosition="above" style="font-size: 14px !important; padding-top: 3px !important; padding-bottom: 3px !important; margin-top:0px !important;margin-bottom: 0px !important;">
+          <button 
+          [class.selected]="categorie.id==selectedCategorie"
+          (click)="onSelect_1(categorie)" mat-menu-item data-toggle="modal" data-target="#exampleModalModifCategorie" >
+            <mat-icon>edit</mat-icon>
+            <span>Modifier</span>
+          </button>
+          <button [class.selected]="categorie.id==selectedCategorie"
+          (click)="onSelect_1(categorie)" mat-menu-item data-toggle="modal" data-target="#exampleModalSuppCategorie" >
+            <mat-icon>delete_outline</mat-icon>
+            <span>Supprimer</span>
+          </button>
+      
+        </mat-menu>
+        
+        {{categorie.nom_categorie}}
+              </div>
+        <div class="card-body">
+          <button class="btn btn-sm btn-light btn-block" 
+           [class.selected]="categorie.id==selectedCategorie"
+          (click)="onSelect_1(categorie)" data-toggle="modal" data-target="#exampleModalAjouter">
+            <i class="fas fa-plus " style="margin-right: 6px ;"></i> Ajouter Tâche</button>
+
+            <div  class="table-responsive " >  
+              <table class="table table-sm "  style="margin-top: 4px !important;box-shadow: inset 0 0 0 2px #dfe1e6 !important;background-color: white !important; border-radius: 3px !important;">
+                <tbody class="tbody">
+                <tr class="custom-r"
+                style=" height: 10px; " 
+                class="clickableRow" *ngFor ="let todo of categorie.todo_lists "
+                [class.selected]="todo.id==selectedTache"
+                (click)="onSelect(todo)" >
+
+                <td style="font-weight: bold; font-size: 14px !important; color: #818181;" >{{todo.titre}}</td>
+                <td style="text-align: end !important;">
+                  <button 
+                  data-toggle="tooltip" data-placement="top" title="Modifier"
+                  class="btn btn-sm btn-light" data-toggle="modal" data-target="#exampleModalModifier"   (click)="onSelect(todo)" > <i class="custom-fass" class=" fas fa-edit fa-sm" ></i></button>
+                  <button data-toggle="tooltip" data-placement="bottom" title="Supprimer"  (click)="onSelect(todo)"  style="margin-left: 6px !important;"
+                   class="btn btn-sm btn-light" data-toggle="modal" data-target="#exampleModalSupprimerTache" style="margin-left: 4px !important;"> <i class="custom-fass" class=" fas fa-trash fa-sm " ></i
+                    ></button>
+                </td> 
+                </tr>
+                </tbody>
+              </table>
+            </div>
+         
+        </div>
+      </div>
+    </ng-container>
+    </div>
+  </div>
+
+  
+  <!-- Modal Ajouter Tache  -->
+
+  <div *ngIf="selectedCategorie; then ajouter1 else ajouter2"></div>  
+  <ng-template #ajouter1>
+    <div  class="modal fade" id="exampleModalAjouter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+          <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;">
+            <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Ajouter une Tâche</span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>     
+          <div class="modal-body">
+            <form [formGroup]="todo_form" >
+              <div class="form-group">
+                <label for="titre">Tâche *</label>
+                <input style="border-radius: 3px !important;box-shadow: inset 0 0 0 1px #0079bf; " type="text" class="form-control" id="titre" formControlName="titre" placeholder="Nom de la tâche" required>
+                <div class="invalid-feedback" *ngIf="submitted && myForm.titre.errors?.required">
+                  Donnez un nom a votre tâche.
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Description *</label>
+                <textarea style="border-radius: 3px !important; box-shadow: inset 0 0 0 1px #0079bf; "  class="form-control" id="a_faire" formControlName="a_faire" placeholder="Description de la tâche"  rows="3" required></textarea>
+                <div class="invalid-feedback" *ngIf="submitted && myForm.a_faire.errors?.required">
+                  décrivez votre tâche.
+                </div>
+              </div>
+       
+            </form>
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal"
+            (click)="Add_todo_list_2()" [disabled]="todo_form.invalid">Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #ajouter2>
+  <div  class="modal fade" id="exampleModalAjouter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+        <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;">
+          <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Ajouter une Tâche</span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>  
+        
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="inputPassword3" style="font-size:14px !important;font-weight: 500 !important; ">Catégorie(s)*</label>
+            <select class="custom-select form-control" (change)="onChange($event.target.value)"
+            style="border-radius: 3px !important; box-shadow: inset 0 0 0 1px #0079bf;"   required  >
+             <option disabled selected>_____</option> 
+            <option   *ngFor="let categorie of categories " value="{{categorie.id}}">{{categorie.nom_categorie}}
+              </option>
+            </select>
+            <!-- error -->
+          </div>
+          <form [formGroup]="todo_form" >
+           
+            <div class="form-group">
+              <label for="titre">Tâche*</label>
+              <input style="border-radius: 3px !important;box-shadow: inset 0 0 0 1px #0079bf; " type="text" class="form-control" id="titre" formControlName="titre" placeholder="Nom de la tâche">
+              <div class="invalid-feedback" *ngIf="submitted && myForm.titre.errors?.required">
+                Donnez un nom a votre tâche.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description*</label>
+              <textarea style="border-radius: 3px !important; box-shadow: inset 0 0 0 1px #0079bf; "  class="form-control" id="a_faire" formControlName="a_faire" placeholder="Description de la tâche"  rows="3"></textarea>
+              <div class="invalid-feedback" *ngIf="submitted && myForm.a_faire.errors?.required">
+                décrivez votre tâche. 
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+         
+          <button type="button" [disabled]=" !categorie_id || todo_form.invalid"  class="btn btn-primary btn-sm" data-dismiss="modal"(click)="Add_todo_list()">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </ng-template>
+
+    <!-- Modal Modifier Supprimer Tache  -->
+    <div class="modal fade" id="exampleModalModifier" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+          <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;" *ngIf="tache_by_id" >
+            <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Modifier la Tâche  </span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>  
+            <div class="modal-body">
+              <form [formGroup]="todo_form_modif"  *ngIf="tache_by_id" >
+                <div class="form-group">
+                  <label for="titre">Tâche</label>
+                  <input [(ngModel)]="tache_by_id.titre" style="border-radius: 3px !important;box-shadow: inset 0 0 0 1px #0079bf; " type="text" class="form-control" id="titre" formControlName="titre" placeholder="Nom de la tâche">
+                  <div class="invalid-feedback" *ngIf="submitted && myFormmodif.titre.errors?.required">
+                    Donnez un nom a votre tâche.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Description</label>
+                  <textarea [(ngModel)]="tache_by_id.a_faire" style="border-radius: 3px !important; box-shadow: inset 0 0 0 1px #0079bf; "  class="form-control" id="a_faire" formControlName="a_faire" placeholder="Description de la tâche"  rows="3"></textarea>
+                  <div class="invalid-feedback" *ngIf="submitted && myFormmodif.a_faire.errors?.required">
+                    décrivez votre tâche.
+                  </div>
+                </div>
+         
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" [disabled]="todo_form_modif.invalid" class="btn btn-primary btn-sm"  data-dismiss="modal"  (click)="Update_Todo_list()">Sauvegarder</button>
+           
+            </div>
+          </div>
+        </div>
+      </div>
+  
+
+
+
+    <!-- Modal Ajouter une Categorie   -->
+    <div class="modal fade" id="exampleModalCategorie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+          <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;" >
+            <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Ajouter une Catégorie</span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>  
+          <div class="modal-body">
+            <form [formGroup]="categorie_form"  >
+              <div class="form-group">
+                <label for="nom_categorie">Catégorie</label>
+                <input style="border-radius: 3px !important;box-shadow: inset 0 0 0 1px #0079bf; " type="text" class="form-control" id="nom_categorie" formControlName="nom_categorie"
+                 placeholder="Nom de la Catégorie">
+                <div class="invalid-feedback" *ngIf="submitted && myFormcat.nom_categorie.errors?.required">
+                  Donnez un nom à votre categorie.
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" [disabled]="categorie_form.invalid" class="btn btn-primary btn-sm" data-dismiss="modal" (click)="Add_categorie()">Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- Modal Modifier une Categorie   -->
+      <div class="modal fade" id="exampleModalModifCategorie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+            <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;" >
+              <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Modifier la Catégorie</span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>  
+            <div class="modal-body">
+              <form [formGroup]="categorie_form_modif" *ngIf="categorie_by_id"  >
+                <div class="form-group">
+                  <label for="nom_categorie">Catégorie</label>
+                  <input [(ngModel)]="categorie_by_id.nom_categorie"
+                 
+                   style="border-radius: 3px !important;box-shadow: inset 0 0 0 1px #0079bf; " type="text" class="form-control" id="nom_categorie" formControlName="nom_categorie"
+                   placeholder="Nom de la Catégorie">
+                  <div class="invalid-feedback" *ngIf="submitted && myFormcatmod.nom_categorie.errors?.required">
+                    Donnez un nom à votre categorie.
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" [disabled]="categorie_form_modif.invalid" class="btn btn-primary btn-sm" data-dismiss="modal" (click)="Modifier_Categorie()">Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+         <!-- Modal Supprimer une Categorie   -->
+         <div class="modal fade" id="exampleModalSuppCategorie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+              <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;" >
+                <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Supprimer la Catégorie</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>  
+              <div class="modal-body"  *ngIf="categorie_by_id" >
+               <span>Etes vous sur de vouloir supprimer la catégorie
+                 <span style="font-weight: bold !important;">{{categorie_by_id.nom_categorie}}.</span>
+                <p></p> Cette action est irrévérsible</span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" (click)="Delete_categorie()">Oui</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" >Non</button>
+              </div>
+            </div>
+          </div>
+        </div>
+            <!-- Modal  Supprimer Tache  -->
+    <div class="modal fade" id="exampleModalSupprimerTache" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content"  style="background-color: rgb(245, 245, 245) !important;">
+          <div class="modal-header" style="height: 40px !important; padding-top: 10px !important;" *ngIf="tache_by_id" >
+            <span class="modal-title" id="exampleModalLongTitle" style="font-size:16px !important;font-weight: bold !important; color: #0079BF !important;">Supprimer une Tâche </span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>  
+          <div class="modal-body"  *ngIf="tache_by_id" >
+            <span>Etes vous sur de vouloir supprimer la Tâche
+              <span style="font-weight: bold !important;">{{tache_by_id.titre}}.</span>
+             <p></p> Cette action est irrévérsible</span>
+           </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"  (click)="Delete_Todo_list()">Oui</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" >Non</button>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+
+<router-outlet></router-outlet>

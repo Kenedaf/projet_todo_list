@@ -1,0 +1,81 @@
+
+<nav class="navbar navbar-expand-lg navbar navbar-light  mb-1" style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 
+0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);color: #1976d2;;background-color: white; height: 56px; ">
+   <a class="navbar-brand" >Todo List</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav nav justify-content-center mx-3 "  >
+            <li class="nav-item mx-1">
+      <!-- <a class="nav-link" routerLink="/preface" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Acceuil</a>--> 
+      </li>
+    </ul>
+  </div>
+  <ul class="nav justify-content-end">
+    <li class="nav-item disabled">   
+    </li>
+    <li class="nav-item">
+      <button mat-raised-button routerLink="/signup">
+        S'inscrire
+       </button>
+    </li>
+  </ul>
+</nav>
+<div class="container-fluid" >
+  <div class="row no-gutters ">
+    <div class="col-12 " style="padding-left:10px; padding-right:10px;">
+      <p class="mat-display-4" style="color:#424242;  text-align: center;">Todo List</p>
+      <p class="titre-2" style=" text-align: center;">Application de géstion de Tâches</p>
+   
+      
+    </div>
+    <div class="col-12 my-0" >
+      <div class="modal-dialog " >
+
+        <div class="modal-content">
+          <div class="modal-header" style="height: 45px; background-color:#1976d2; ;">
+              <p class="modal-title" id="exampleModalScrollableTitle"
+              style="color: white; font-family: OpenSans,Helvetica,Arial,sans-serif;
+            ; font-size: 12;"
+              >Connexion </p>
+            
+            </div>
+            <div class="modal-body">
+              <!-------------------TELEPHONE FORM FORM-------------------->
+              <form  [formGroup]="loginForm" (keyup.enter)="onLogin()">
+    
+                <mat-form-field [style.width.%]="100" >
+                  <mat-label>Nom d'utilisateur</mat-label>
+                  <input matInput name="username" 
+                  (keydown.space)="$event.preventDefault();"
+                  formControlName="username"  required >  
+                </mat-form-field>
+                <mat-form-field [style.width.%]="100" >
+                  <mat-label>Mot de passe</mat-label>
+                  <input matInput 
+                  (keydown.space)="$event.preventDefault();"
+                  name="password" type="password" formControlName="password" required>
+                </mat-form-field>
+                 </form> 
+            </div>
+            <div class="modal-footer">
+              <button type="submit" 
+                  mat-raised-button style="background-color:  #1976d2;color: white;" 
+                  [disabled]="loginForm.invalid"
+                  (click)="onLogin()"
+                  >Connexion
+              </button>
+              
+            </div>
+          </div>
+      </div>
+
+    </div> 
+  </div>
+</div>
+
+
+  <router-outlet></router-outlet>
+
+
